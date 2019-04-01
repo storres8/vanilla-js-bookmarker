@@ -21,4 +21,47 @@ function saveBookmark(e) {
     bookmarks.push(bookmark);
     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
   }
+  fetchBookmarks();
+}
+
+function deleteBookmark(url) {
+  let bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+
+  for (let i = 0; i < bookmarks.length; i++) {
+    if (bookmarks[i].url === url) {
+      bookmarks.splice(i, 1);
+    }
+  }
+
+  localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+
+  fetchBookmarks();
+}
+
+function fetchBookmarks() {
+  let bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+  let results = document.getElementById("results");
+
+  results.innerHTML = "";
+
+  for (let i = 0; i < bookmarks.length; i++) {
+    let name = bookmarks[i].name;
+    let url = bookmarks[i].url;
+
+    results.innerHTML +=
+      "<div class='border mb-3'>" +
+      "<h3 class='font-weight-light mt-2' >" +
+      "<span class='ml-1 mt-1 mr-3'>" +
+      name +
+      "</span>" +
+      '<a href="' +
+      url +
+      '"class="btn btn-outline-primary mr-2"> Visit </a>' +
+      "<a onClick='deleteBookmark(\"" +
+      url +
+      "\")' href ='#' class='btn btn-outline-danger'> Delete </a>" +
+      "<a></a>" +
+      "</h3>" +
+      "</div>";
+  }
 }
